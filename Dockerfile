@@ -1,11 +1,11 @@
-FROM haskell:9.12.2 as dev
+FROM haskell:9.12.2 AS dev
 
 ENV RESOLVER=nightly-2025-12-30 \
     LC_ALL=C.UTF-8 \
     PATH="/usr/app/venv/bin:$PATH"
 
 RUN ghc --version
-RUN stack setup --resolver=$RESOLVER 
+RUN stack setup --resolver=$RESOLVER
 RUN apt-get update && apt-get install -y --no-install-recommends git python3-pip python3-venv && apt-get clean && rm -rf /var/lib/apt/lists
 #RUN stack install --resolver=$RESOLVER base-compat-0.14.0
 #RUN stack install --resolver=$RESOLVER microlens-platform-0.4.3.5 hashable-1.4.7.0 hledger-lib-1.43 hledger-1.43 hledger-ui-1.43 hledger-web-1.43
@@ -39,7 +39,7 @@ FROM debian:bookworm-slim
 
 MAINTAINER Dmitry Astapov <dastapov@gmail.com>
 
-RUN apt-get update && apt-get install --yes --no-install-recommends libgmp10 libtinfo6 sudo less && apt-get clean && rm -rf /var/lib/apt/lists
+RUN apt-get update && apt-get install --yes --no-install-recommends libgmp10 libtinfo6 sudo less python3-venv && apt-get clean && rm -rf /var/lib/apt/lists
 RUN adduser --system --ingroup root hledger && usermod -aG sudo hledger && mkdir /.cache && chmod 0777 /.cache
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
